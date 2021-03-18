@@ -52,7 +52,7 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: 'Dashboard', icon: 'dashboard' }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -118,7 +118,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'list',
-        component: () => import('@/views/orders/list/index'),
+        component: () => import('@/views/members/list/index'),
         name: 'MembersList',
         meta: { title: '会员列表' }
       }
@@ -244,6 +244,14 @@ export const constantRoutes = [
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
+]
+
+export const asyncRoutes = [
+  // {
+  //   path: '/404',
+  //   component: () => import('@/views/404'),
+  //   hidden: true
+  // }
 ]
 
 const createRouter = () =>
