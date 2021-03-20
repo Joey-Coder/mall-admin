@@ -61,6 +61,7 @@ export default {
             }
           }
         },
+        backgroundColor: '#fff',
         grid: {
           top: 90
         },

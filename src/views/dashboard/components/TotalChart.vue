@@ -3,6 +3,19 @@
     <div class="total-chart" style="width: 600px;height:400px;" />
     <el-select
       v-model="value"
+      placeholder="年份"
+      class="year-selector"
+      size="mini"
+    >
+      <el-option
+        v-for="item in yearOptions"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+    <el-select
+      v-model="value"
       placeholder="月份"
       class="month-selector"
       size="mini"
@@ -106,6 +119,20 @@ export default {
         '10月',
         '11月',
         '12月'
+      ],
+      yearOptions: [
+        {
+          value: '2019',
+          label: '2019'
+        },
+        {
+          value: '2020',
+          label: '2020'
+        },
+        {
+          value: '2021',
+          label: '2021'
+        }
       ]
     }
   },
@@ -166,6 +193,7 @@ export default {
             }
           }
         },
+        backgroundColor: '#fff',
         xAxis: {
           type: 'category',
           boundaryGap: false,
@@ -238,11 +266,17 @@ export default {
 <style scoped lang="scss">
 .total-chart-wrapper {
   position: relative;
+  .year-selector {
+    position: absolute;
+    top: 5px;
+    left: calc(600px - 10rem);
+    width: 4.5rem;
+  }
   .month-selector {
     position: absolute;
-    top: 0;
+    top: 5px;
     left: calc(600px - 5rem);
-    width: 5rem;
+    width: 4.5rem;
   }
 }
 </style>

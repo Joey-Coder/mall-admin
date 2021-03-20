@@ -8,6 +8,7 @@
       <pie-chart />
       <order-chart />
       <visit-chart />
+      <!-- 转化率 -->
       <div class="conversion">
         <div class="conversion-title">
           <p>转化率</p>
@@ -39,6 +40,62 @@
             <p class="visitor">12访客</p>
           </div>
           <div class="per">5%</div>
+        </div>
+      </div>
+      <!-- 社交平台 -->
+      <div class="platform">
+        <div class="platform-title">
+          <p>社交平台</p>
+        </div>
+        <div class="platform-item">
+          <div class="icon">
+            <img src="../../assets/platform/ic_g.png" />
+            <p class="visitor">Google</p>
+          </div>
+          <div class="data">
+            <p>17.3%</p>
+            <p>141</p>
+          </div>
+        </div>
+        <div class="platform-item">
+          <div class="icon">
+            <img src="../../assets/platform/ic_facebook.png" />
+            <p class="visitor">FaceBook</p>
+          </div>
+          <div class="data">
+            <p>17.3%</p>
+            <p>141</p>
+          </div>
+        </div>
+        <div class="platform-item">
+          <div class="icon">
+            <img src="../../assets/platform/ic_ins.png" />
+            <p class="visitor">Instagram</p>
+          </div>
+          <div class="data">
+            <p>17.3%</p>
+            <p>141</p>
+          </div>
+        </div>
+        <div class="platform-item">
+          <div class="icon">
+            <img src="../../assets/platform/ic_wechat.png" />
+            <p class="visitor">WeChat</p>
+          </div>
+          <div class="data">
+            <p>17.3%</p>
+            <p>141</p>
+          </div>
+        </div>
+        <div class="platform-item">
+          <div class="icon">
+            <img src="../../assets/platform/ic_whatsapp.png" />
+            <p class="visitor">Whatsapp</p>
+          </div>
+          <div class="data">
+            <p>17.3%</p>
+            <p>141</p>
+          </div>
         </div>
       </div>
     </section>
@@ -79,10 +136,12 @@ export default {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
+      column-gap: 1rem;
+      row-gap: 1.5rem;
       .conversion {
         background-color: #fff;
         padding: 2rem;
-        width: 80%;
+        width: 600px;
         p {
           margin: 0;
         }
@@ -112,6 +171,40 @@ export default {
           .per {
             font-size: 1.5rem;
             // font-weight: 600;
+          }
+        }
+      }
+      .platform {
+        background-color: #fff;
+        padding: 2rem;
+        width: 600px;
+        p {
+          margin: 0;
+        }
+        &-title {
+          p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding-bottom: 0.5rem;
+          }
+          margin-bottom: 1rem;
+        }
+        &-item {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: center;
+          margin-bottom: 1.5rem;
+          .icon {
+            display: flex;
+            align-items: center;
+            img {
+              margin-right: 1rem;
+            }
+          }
+          .data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            justify-items: end;
           }
         }
       }

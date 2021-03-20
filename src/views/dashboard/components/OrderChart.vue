@@ -61,6 +61,7 @@ export default {
             }
           }
         },
+        backgroundColor: '#fff',
         xAxis: {
           type: 'category',
           boundaryGap: false,

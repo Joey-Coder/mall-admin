@@ -66,6 +66,7 @@ export default {
             }
           }
         },
+        backgroundColor: '#fff',
         tooltip: {
           trigger: 'item',
           // a:图表总名称，b：各个图表名称，c：子图数量，d：子图占比
