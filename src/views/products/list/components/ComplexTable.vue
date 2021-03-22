@@ -29,7 +29,9 @@
     <div class="toolbar">
       <div>
         <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addProduct">添加商品</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click="addProduct"
+          >添加商品</el-button
+        >
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -54,7 +56,7 @@
       <el-table-column label="缩略图" width="110" align="center">
         <template slot-scope="scope">
           <!-- <span>{{ scope.row.pic }}</span> -->
-          <img :src="scope.row.pic" alt="">
+          <img :src="scope.row.pic" alt="" />
         </template>
       </el-table-column>
       <el-table-column label="商品名称" align="center" width="180">
@@ -142,13 +144,33 @@
             icon="el-icon-download"
             @click="handleModifyStatus(row, '已下架')"
           />
-          <el-button
-            v-if="row.status != 'deleted'"
-            size="mini"
-            type="danger"
-            icon="el-icon-delete"
-            @click="handleDelete(row, $index)"
-          />
+          <el-popconfirm
+            title="确认删除?"
+            style="margin-left: 10px"
+            @onConfirm="handleDelete(row, $index)"
+          >
+            <el-button
+              v-if="row.status != 'deleted'"
+              slot="reference"
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+            />
+          </el-popconfirm>
+          <!-- 商品删除确认dialog -->
+          <!-- <el-dialog
+            title="提示"
+            :visible.sync="deleteDialogVisible"
+            width="30%"
+          >
+            <span>是否删除该商品?</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="deleteDialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="handleDelete(row, $index)"
+                >确 定</el-button
+              >
+            </span>
+          </el-dialog> -->
         </template>
       </el-table-column>
     </el-table>
@@ -247,7 +269,8 @@ export default {
             }
           }
         ]
-      }
+      },
+      deleteDialogVisible: false
     }
   },
   created() {
@@ -282,13 +305,14 @@ export default {
       row.status = status
     },
     handleDelete(row, index) {
+      this.list.splice(index, 1)
+      this.deleteDialogVisible = false
       this.$notify({
         title: 'Success',
         message: 'Delete Successfully',
         type: 'success',
         duration: 2000
       })
-      this.list.splice(index, 1)
     },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
