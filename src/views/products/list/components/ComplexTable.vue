@@ -146,8 +146,8 @@
           />
           <el-popconfirm
             title="确认删除?"
-            style="margin-left: 10px"
             @onConfirm="handleDelete(row, $index)"
+            style="margin-left: 10px"
           >
             <el-button
               v-if="row.status != 'deleted'"
