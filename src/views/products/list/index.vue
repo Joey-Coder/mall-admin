@@ -6,56 +6,13 @@
       @node-click="handleNodeClick"
     />
     <div class="table-wrapper">
-      <div class="filter-container">
-        <el-input
-          v-model="listQuery.title"
-          placeholder="Title"
-          style="width: 200px;"
-          class="filter-item"
-        />
-        <el-date-picker
-          v-model="listQuery.date"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions"
-        />
-        <el-button
-          class="filter-item"
-          type="primary"
-          icon="el-icon-search"
-          @click="handleFilter"
-        >
-          搜索商品
-        </el-button>
-      </div>
-      <div class="toolbar">
-        <div>
-          <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-          <el-button type="primary" icon="el-icon-plus">添加商品</el-button>
-        </div>
-        <p>共有数据：32条</p>
-      </div>
-      <!-- <el-table :data="tableData" border style="width: 100%" fit>
-          <el-table-column type="selection" width="55px" />
-          <el-table-column prop="id" label="ID" width="120px" />
-          <el-table-column prop="pic" label="略缩图" width="120px" />
-          <el-table-column prop="name" label="商品名称" width="120px" />
-          <el-table-column prop="desc" label="描述" width="120px" />
-          <el-table-column prop="price" label="单价" width="120px" />
-          <el-table-column prop="create-date" label="创建日期" width="120px" />
-          <el-table-column prop="update-date" label="更新日期" width="120px" />
-          <el-table-column prop="status" label="发布状态" width="80px" />
-          <el-table-column prop="option" label="操作" />
-        </el-table> -->
-      <complex-table />
+      <complex-table :tree-data="treeData" />
     </div>
   </div>
 </template>
 
 <script>
-import ComplexTable from '@/components/ComplexTable'
+import ComplexTable from './components/ComplexTable'
 export default {
   name: 'ProductsList',
   components: {
@@ -162,29 +119,7 @@ export default {
             }
           }
         ]
-      },
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      }
     }
   },
   computed: {},
@@ -194,9 +129,6 @@ export default {
   methods: {
     handleNodeClick(data) {
       console.log(data)
-    },
-    handleFilter() {
-      console.log('filter')
     }
   }
 }
@@ -206,7 +138,7 @@ export default {
   background-color: #fff;
   // width: 98%;
   display: grid;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: 1fr 7fr;
   column-gap: 1rem;
   padding: 3rem 1rem 1rem 3rem;
   .el-tree {
@@ -216,23 +148,6 @@ export default {
     // padding: 3rem 1rem;
     overflow: scroll;
     width: 100%;
-    .filter-container {
-      display: flex;
-      justify-content: center;
-      .el-input,
-      .el-date-editor {
-        margin-right: 1rem;
-      }
-    }
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 2rem;
-      padding: 0.5rem 1rem;
-      background-color: #f0f0f5;
-      border-radius: 0.5rem;
-    }
   }
 }
 // .products-list {
