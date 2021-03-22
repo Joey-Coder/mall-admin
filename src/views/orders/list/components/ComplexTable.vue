@@ -69,11 +69,9 @@
           {{ scope.row.desc }}
         </template>
       </el-table-column>
-      <el-table-column label="单价" width="120" align="center" sortable="custom">
+      <el-table-column label="单价" width="80" align="center" sortable="custom">
         <template slot-scope="scope">
-          {{
-            scope.row.price1 + ',' + scope.row.price2 + ',' + scope.row.price3
-          }}
+          {{ scope.row.price }}
         </template>
       </el-table-column>
       <!-- 创建日期 -->
@@ -81,7 +79,7 @@
         align="center"
         prop="created_at"
         label="创建日期"
-        width="170"
+        width="180"
         sortable="custom"
       >
         <template slot-scope="scope">
@@ -94,7 +92,7 @@
         align="center"
         prop="update_at"
         label="更新日期"
-        width="170"
+        width="180"
         sortable="custom"
       >
         <template slot-scope="scope">
@@ -106,7 +104,7 @@
       <el-table-column
         class-name="status-col"
         label="状态"
-        width="80"
+        width="110"
         align="center"
         sortable="custom"
       >
@@ -190,12 +188,10 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList } from '@/api/order'
 import Pagination from '@/components/Pagination'
-// import Dropzone from '@/components/Dropzone'
-// import Tinymce from '@/components/Tinymce'
-// import ProductDialog from './ProductDialog'
 import { parseTime, randomString } from '@/utils/index'
+import ProductDialog from './ProductDialog'
 
 export default {
   filters: {
@@ -209,9 +205,7 @@ export default {
   },
   components: {
     Pagination,
-    // Dropzone,
-    // Tinymce,
-    ProductDialog: () => import('./ProductDialog')
+    ProductDialog
   },
   props: {
     treeData: {

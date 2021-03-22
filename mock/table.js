@@ -18,15 +18,15 @@ const data = Mock.mock({
       create_time: '@datetime',
       update_time: '@datetime',
       pageviews: '@integer(300, 5000)',
-      price1: '@float(60,100,0,2)',
+      price1: '@float(60,100,0,1)',
       'category|1': [
         ['一级 1', '一级 2'],
         ['一级 3', '一级 2']
       ],
       num1: '@integer(60, 500)',
-      price2: '@float(60,100,0,2)',
+      price2: '@float(60,100,0,1)',
       num2: '@integer(60, 500)',
-      price3: '@float(60,100,0,2)',
+      price3: '@float(60,100,0,1)',
       num3: '@integer(60, 500)',
       content: '@csentence(100,200)'
     }

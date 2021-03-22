@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <h4>List</h4>
+  <div class="order-list">
+    <complex-table />
   </div>
 </template>
 
 <script>
+import ComplexTable from './components/ComplexTable'
+
 export default {
   name: 'OrdersList',
-  components: {},
+  components: {
+    ComplexTable
+  },
   props: {},
   data() {
     return {}
@@ -19,4 +23,9 @@ export default {
   methods: {}
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.order-list {
+  background-color: #fff;
+  padding: 3rem;
+}
+</style>
