@@ -29,9 +29,7 @@
     <div class="toolbar">
       <div>
         <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addProduct"
-          >添加商品</el-button
-        >
+        <el-button type="primary" icon="el-icon-plus" @click="addProduct">添加商品</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -56,7 +54,7 @@
       <el-table-column label="缩略图" width="110" align="center">
         <template slot-scope="scope">
           <!-- <span>{{ scope.row.pic }}</span> -->
-          <img :src="scope.row.pic" alt="" />
+          <img :src="scope.row.pic" alt="">
         </template>
       </el-table-column>
       <el-table-column label="商品名称" align="center" width="180">

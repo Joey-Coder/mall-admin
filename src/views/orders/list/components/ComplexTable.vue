@@ -4,9 +4,7 @@
     <div class="toolbar">
       <div>
         <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addProduct"
-          >添加商品</el-button
-        >
+        <el-button type="primary" icon="el-icon-plus" @click="addProduct">添加商品</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -138,7 +136,16 @@
             content="备注"
             placement="bottom"
           >
-            <el-button type="primary" icon="el-icon-edit" size="mini" />
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              size="mini"
+              @click="
+                tip = row.tip
+                index = $index
+                tipDialogVisible = true
+              "
+            />
           </el-tooltip>
           <el-tooltip
             class="item"
@@ -182,7 +189,7 @@
     />
     <!-- 发货dialog -->
     <el-dialog title="发货" :visible.sync="sendDialogVisible" width="40%">
-      <el-form ref="form" :model="shippingForm" label-width="80px">
+      <el-form :model="shippingForm" label-width="80px">
         <el-form-item label="快递名称">
           <el-select v-model="shippingForm.name" placeholder="请选择">
             <el-option
@@ -206,10 +213,27 @@
           type="primary"
           @click="
             sendDialogVisible = false
-            list[index].status = '交易成功'
-          "
-          >确 定</el-button
-        >
+            list[index].status = '交易成功' "
+        >确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 备注dialog -->
+    <el-dialog title="备注" :visible.sync="tipDialogVisible" width="40%">
+      <el-input
+        v-model="tip"
+        type="textarea"
+        placeholder="请输入详细备注"
+        maxlength="50"
+        show-word-limit
+      />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="tipDialogVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            tipDialogVisible = false
+            list[index].tip = tip"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -296,8 +320,10 @@ export default {
           }
         ]
       },
+      tip: null,
       deleteDialogVisible: false,
       sendDialogVisible: false,
+      tipDialogVisible: false,
       shippingForm: {
         id: null,
         cost: null,
