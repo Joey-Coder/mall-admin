@@ -5,16 +5,15 @@ const data = Mock.mock({
   'items|30': [
     {
       id: '@id',
-      title: '@sentence(10, 20)',
-      'status|1': ['待支付', '已支付', '交易成功'],
+      price: '@float(60,100,0,1)',
       author: '@csentence(5,10)',
+      shipping: '@id',
       tip: '@csentence(10,30)',
       create_time: '@datetime',
       pay_time: '@datetime',
       close_time: '@datetime',
       finish_time: '@datetime',
-      price: '@float(60,100,0,1)',
-      shipping: '@id'
+      'status|1': ['待支付', '已支付', '交易成功']
     }
   ]
 })

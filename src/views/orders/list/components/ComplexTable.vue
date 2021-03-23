@@ -4,7 +4,13 @@
     <div class="toolbar">
       <div>
         <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addProduct">添加商品</el-button>
+        <el-button
+          :loading="exportLoading"
+          type="primary"
+          icon="el-icon-printer"
+          @click="handleExport"
+          >订单打印</el-button
+        >
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -213,8 +219,10 @@
           type="primary"
           @click="
             sendDialogVisible = false
-            list[index].status = '交易成功' "
-        >确 定</el-button>
+            list[index].status = '交易成功'
+          "
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
     <!-- 备注dialog -->
@@ -232,8 +240,10 @@
           type="primary"
           @click="
             tipDialogVisible = false
-            list[index].tip = tip"
-        >确 定</el-button>
+            list[index].tip = tip
+          "
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -342,7 +352,8 @@ export default {
           value: '3',
           label: '快递 3'
         }
-      ]
+      ],
+      exportLoading: false
     }
   },
   created() {
@@ -431,6 +442,60 @@ export default {
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
         data.shipping.toLowerCase().includes(this.search.toLowerCase())
+      )
+    },
+    // 导出excel
+    handleExport() {
+      this.exportLoading = true
+      import('@/vendor/Export2Excel.js').then(excel => {
+        const tHeader = [
+          '订单号',
+          '支付金额',
+          '用户账号',
+          '物流号',
+          '备注',
+          '创建时间',
+          '支付时间',
+          '关闭时间',
+          '完成时间',
+          '订单状态'
+        ]
+        const filterVal = [
+          'id',
+          'price',
+          'author',
+          'shipping',
+          'tip',
+          'create_time',
+          'pay_time',
+          'close_time',
+          'finish_time',
+          'status'
+        ]
+        const list = this.list
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader, // 表头
+          data, // 具体数据
+          filename: 'order-list', // 非必填
+          autoWidth: true, // 非必填 单元格宽度自适应
+          bookType: 'xlsx' // 非必填 导出文件格式
+        })
+        this.exportLoading = false
+      })
+    },
+    //
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (
+            ['create_time', 'pay_time', 'close_time', 'finish_time'].indexOf(j)
+          ) {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        })
       )
     }
   }

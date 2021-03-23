@@ -1,5 +1,14 @@
 <template>
   <div class="app-container">
+    <el-button
+      :loading="downloadLoading"
+      style="margin:0 0 20px 20px;"
+      type="primary"
+      icon="el-icon-document"
+      @click="handleDownload"
+    >
+      Export Excel
+    </el-button>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -56,7 +65,8 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList } from '@/api/test'
+import { parseTime } from '@/utils'
 
 export default {
   filters: {
@@ -72,7 +82,8 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      downloadLoading: false
     }
   },
   created() {
@@ -85,6 +96,34 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       })
+    },
+    handleDownload() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['a', 'b', 'c', 'd', 'e']
+        const filterVal = ['id', 'title', 'author', 'pageviews', 'display_time']
+        const list = this.list
+        const data = this.formatJson(filterVal, list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'list',
+          autoWidth: true,
+          bookType: 'xlsx'
+        })
+        this.downloadLoading = false
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === 'display_time') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        })
+      )
     }
   }
 }
