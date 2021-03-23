@@ -48,38 +48,42 @@
       @sort-change="handleSort"
     >
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column align="center" label="ID" width="95" sortable="custom">
+      <el-table-column
+        align="center"
+        label="订单号"
+        width="95"
+        sortable="custom"
+      >
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="缩略图" width="110" align="center">
-        <template slot-scope="scope">
-          <!-- <span>{{ scope.row.pic }}</span> -->
-          <img :src="scope.row.pic" alt="" />
-        </template>
-      </el-table-column>
-      <el-table-column label="商品名称" align="center" width="180">
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
-      <el-table-column label="描述" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.desc }}
-        </template>
-      </el-table-column>
-      <el-table-column label="单价" width="80" align="center" sortable="custom">
+      <el-table-column label="支付金额" align="center" width="80">
         <template slot-scope="scope">
           {{ scope.row.price }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户账号" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.author }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="物流号"
+        width="120"
+        align="center"
+        sortable="custom"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.shipping }}
         </template>
       </el-table-column>
       <!-- 创建日期 -->
       <el-table-column
         align="center"
         prop="created_at"
-        label="创建日期"
-        width="180"
+        label="创建时间"
+        width="170"
         sortable="custom"
       >
         <template slot-scope="scope">
@@ -87,26 +91,49 @@
           <span>{{ scope.row.create_time }}</span>
         </template>
       </el-table-column>
-      <!-- 更新日期 -->
       <el-table-column
         align="center"
-        prop="update_at"
-        label="更新日期"
-        width="180"
+        prop="created_at"
+        label="支付时间"
+        width="170"
         sortable="custom"
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.update_time }}</span>
+          <span>{{ scope.row.pay_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="关闭时间"
+        width="170"
+        sortable="custom"
+      >
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.close_time }}</span>
+        </template>
+      </el-table-column>
+      <!-- 更新日期 -->
+      <el-table-column
+        align="center"
+        prop="update_at"
+        label="完成时间"
+        width="170"
+        sortable="custom"
+      >
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.finish_time }}</span>
         </template>
       </el-table-column>
       <!-- 发布状态 -->
       <el-table-column
         class-name="status-col"
-        label="状态"
-        width="110"
+        label="订单状态"
+        width="100"
         align="center"
-        sortable="custom"
       >
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{
@@ -125,52 +152,20 @@
           <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
         </template>
         <template slot-scope="{ row, $index }">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            @click="handleUpdate(row)"
-          />
-          <el-button
-            v-if="row.status != '已发布'"
-            size="mini"
-            type="success"
-            icon="el-icon-upload2"
-            @click="handleModifyStatus(row, '已发布')"
-          />
-          <el-button
-            v-if="row.status != '已下架'"
-            size="mini"
-            icon="el-icon-download"
-            @click="handleModifyStatus(row, '已下架')"
-          />
+          <el-button type="primary" icon="el-icon-edit" size="mini" />
+          <el-button size="mini" type="success" icon="el-icon-s-promotion" />
           <el-popconfirm
-            title="确认删除?"
+            title="确认取消?"
             style="margin-left: 10px"
             @onConfirm="handleDelete(row, $index)"
           >
             <el-button
-              v-if="row.status != 'deleted'"
               slot="reference"
               size="mini"
               type="danger"
-              icon="el-icon-delete"
+              icon="el-icon-circle-close"
             />
           </el-popconfirm>
-          <!-- 商品删除确认dialog -->
-          <!-- <el-dialog
-            title="提示"
-            :visible.sync="deleteDialogVisible"
-            width="30%"
-          >
-            <span>是否删除该商品?</span>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="deleteDialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="handleDelete(row, $index)"
-                >确 定</el-button
-              >
-            </span>
-          </el-dialog> -->
         </template>
       </el-table-column>
     </el-table>
@@ -190,22 +185,27 @@
 <script>
 import { getList } from '@/api/order'
 import Pagination from '@/components/Pagination'
+// import Dropzone from '@/components/Dropzone'
+// import Tinymce from '@/components/Tinymce'
+// import ProductDialog from './ProductDialog'
 import { parseTime, randomString } from '@/utils/index'
-import ProductDialog from './ProductDialog'
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        已发布: 'success',
-        已下架: 'danger'
+        已支付: 'info',
+        待支付: 'danger',
+        交易成功: 'success'
       }
       return statusMap[status]
     }
   },
   components: {
     Pagination,
-    ProductDialog
+    // Dropzone,
+    // Tinymce,
+    ProductDialog: () => import('./ProductDialog')
   },
   props: {
     treeData: {

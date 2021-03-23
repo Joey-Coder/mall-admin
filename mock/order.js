@@ -12,7 +12,9 @@ const data = Mock.mock({
       create_time: '@datetime',
       pay_time: '@datetime',
       close_time: '@datetime',
-      finish_time: '@datetime'
+      finish_time: '@datetime',
+      price: '@float(60,100,0,1)',
+      shipping: '@id'
     }
   ]
 })
