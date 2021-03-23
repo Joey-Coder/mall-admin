@@ -146,7 +146,15 @@
             content="发货"
             placement="bottom"
           >
-            <el-button size="mini" type="success" icon="el-icon-s-promotion" />
+            <el-button
+              size="mini"
+              type="success"
+              icon="el-icon-s-promotion"
+              @click="
+                index = $index
+                sendDialogVisible = true
+              "
+            />
           </el-tooltip>
 
           <el-popconfirm
@@ -172,6 +180,38 @@
       :limit.sync="listQuery.limit"
       @pagination="fetchData"
     />
+    <!-- 发货dialog -->
+    <el-dialog title="发货" :visible.sync="sendDialogVisible" width="40%">
+      <el-form ref="form" :model="shippingForm" label-width="80px">
+        <el-form-item label="快递名称">
+          <el-select v-model="shippingForm.name" placeholder="请选择">
+            <el-option
+              v-for="item in shippingOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="快递单号">
+          <el-input v-model="shippingForm.id" />
+        </el-form-item>
+        <el-form-item label="运费">
+          <el-input v-model="shippingForm.cost" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="sendDialogVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            sendDialogVisible = false
+            list[index].status = '交易成功'
+          "
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -209,6 +249,8 @@ export default {
       listLoading: true,
       // 商品总数
       total: 0,
+      // 当前发货的下标
+      index: null,
       listQuery: {
         title: null,
         date: null,
@@ -254,7 +296,27 @@ export default {
           }
         ]
       },
-      deleteDialogVisible: false
+      deleteDialogVisible: false,
+      sendDialogVisible: false,
+      shippingForm: {
+        id: null,
+        cost: null,
+        name: null
+      },
+      shippingOptions: [
+        {
+          value: '1',
+          label: '快递 1'
+        },
+        {
+          value: '2',
+          label: '快递 2'
+        },
+        {
+          value: '3',
+          label: '快递 3'
+        }
+      ]
     }
   },
   created() {
