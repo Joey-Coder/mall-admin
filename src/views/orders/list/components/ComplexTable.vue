@@ -9,8 +9,7 @@
           type="primary"
           icon="el-icon-printer"
           @click="handleExport"
-          >订单打印</el-button
-        >
+        >订单打印</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -221,8 +220,7 @@
             sendDialogVisible = false
             list[index].status = '交易成功'
           "
-          >确 定</el-button
-        >
+        >确 定</el-button>
       </span>
     </el-dialog>
     <!-- 备注dialog -->
@@ -242,8 +240,7 @@
             tipDialogVisible = false
             list[index].tip = tip
           "
-          >确 定</el-button
-        >
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>

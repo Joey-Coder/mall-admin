@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <h4>Admin List</h4>
+  <div class="admin">
+    <complex-table />
   </div>
 </template>
 
 <script>
+import ComplexTable from './components/ComplexTable'
 export default {
   name: '',
-  components: {},
+  components: {
+    ComplexTable
+  },
   props: {},
   data() {
     return {}
@@ -19,4 +22,8 @@ export default {
   methods: {}
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.admin {
+  padding: 3rem 1rem;
+}
+</style>
