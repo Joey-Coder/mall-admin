@@ -5,8 +5,9 @@ const user = require('./user')
 const table = require('./table')
 const order = require('./order')
 const test = require('./test')
+const members = require('./members')
 
-const mocks = [...user, ...table, ...order, ...test]
+const mocks = [...user, ...table, ...order, ...test, ...members]
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,

@@ -3,8 +3,8 @@
     <!-- 筛选区域 -->
     <div class="filter-container">
       <el-input
-        v-model="listQuery.title"
-        placeholder="Title"
+        v-model="listQuery.query"
+        placeholder="用户名/手机/邮箱"
         style="width: 200px"
         class="filter-item"
       />
@@ -22,14 +22,16 @@
         icon="el-icon-search"
         @click="handleFilter"
       >
-        搜索商品
+        搜索用户
       </el-button>
     </div>
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
         <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addProduct">添加商品</el-button>
+        <!-- <el-button type="primary" icon="el-icon-plus" @click="addProduct"
+          >添加商品</el-button
+        > -->
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -46,30 +48,35 @@
       @sort-change="handleSort"
     >
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column align="center" label="ID" width="95" sortable="custom">
+      <el-table-column align="center" label="ID" width="110" sortable="custom">
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="缩略图" width="110" align="center">
-        <template slot-scope="scope">
-          <!-- <span>{{ scope.row.pic }}</span> -->
-          <img :src="scope.row.pic" alt="">
-        </template>
-      </el-table-column>
-      <el-table-column label="商品名称" align="center" width="180">
+
+      <el-table-column label="用户名" align="center">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="描述" align="center">
+      <el-table-column
+        label="IP地址"
+        align="center"
+        width="120"
+        sortable="custom"
+      >
         <template slot-scope="scope">
-          {{ scope.row.desc }}
+          {{ scope.row.ip }}
         </template>
       </el-table-column>
-      <el-table-column label="单价" width="110" align="center" sortable="custom">
+      <el-table-column
+        label="手机"
+        width="110"
+        align="center"
+        sortable="custom"
+      >
         <template slot-scope="scope">
-          {{ scope.row.price1 + ', ' + scope.row.price2 + ', ' + scope.row.price3 }}
+          {{ scope.row.phone }}
         </template>
       </el-table-column>
       <!-- 创建日期 -->
@@ -89,60 +96,34 @@
       <el-table-column
         align="center"
         prop="update_at"
-        label="更新日期"
+        label="最近登录"
         width="180"
         sortable="custom"
       >
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.update_time }}</span>
+          <span>{{ scope.row.login_time }}</span>
         </template>
       </el-table-column>
-      <!-- 发布状态 -->
-      <el-table-column
-        class-name="status-col"
-        label="状态"
-        width="110"
-        align="center"
-        sortable="custom"
-      >
+      <el-table-column align="center" label="备注">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{
-            scope.row.status
-          }}</el-tag>
+          {{ scope.row.tip }}
         </template>
       </el-table-column>
       <!-- 操作 -->
       <el-table-column
         label="Actions"
         align="center"
-        width="200"
+        width="150"
         class-name="small-padding fixed-width"
       >
         <template slot="header">
           <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
         </template>
         <template slot-scope="{ row, $index }">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            @click="handleUpdate(row)"
-          />
-          <el-button
-            v-if="row.status != '已发布'"
-            size="mini"
-            type="success"
-            icon="el-icon-upload2"
-            @click="handleModifyStatus(row, '已发布')"
-          />
-          <el-button
-            v-if="row.status != '已下架'"
-            size="mini"
-            icon="el-icon-download"
-            @click="handleModifyStatus(row, '已下架')"
-          />
-          <el-popconfirm
+          <el-button type="primary" icon="el-icon-edit" size="mini" />
+          <el-button type="danger" icon="el-icon-key" size="mini" />
+          <!-- <el-popconfirm
             title="确认删除?"
             style="margin-left: 10px"
             @onConfirm="handleDelete(row, $index)"
@@ -154,21 +135,7 @@
               type="danger"
               icon="el-icon-delete"
             />
-          </el-popconfirm>
-          <!-- 商品删除确认dialog -->
-          <!-- <el-dialog
-            title="提示"
-            :visible.sync="deleteDialogVisible"
-            width="30%"
-          >
-            <span>是否删除该商品?</span>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="deleteDialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="handleDelete(row, $index)"
-                >确 定</el-button
-              >
-            </span>
-          </el-dialog> -->
+          </el-popconfirm> -->
         </template>
       </el-table-column>
     </el-table>
@@ -186,7 +153,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList } from '@/api/members'
 import Pagination from '@/components/Pagination'
 import { parseTime, randomString } from '@/utils/index'
 import ProductDialog from './ProductDialog'
@@ -221,7 +188,7 @@ export default {
       // 商品总数
       total: 0,
       listQuery: {
-        title: null,
+        query: null,
         date: null,
         page: 1,
         limit: 10,
@@ -329,22 +296,25 @@ export default {
         !this.search ||
         data.name.toLowerCase().includes(this.search.toLowerCase()) ||
         data.id.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.title.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.author.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.desc.toLowerCase().includes(this.search.toLowerCase()) ||
+        data.tip.toLowerCase().includes(this.search.toLowerCase()) ||
+        data.address.toLowerCase().includes(this.search.toLowerCase()) ||
+        data.email.toLowerCase().includes(this.search.toLowerCase()) ||
         data.create_time
           .toString()
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
-        data.update_time
+        data.login_time
           .toString()
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
-        data.price
+        data.phone
           .toString()
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
-        data.name.toLowerCase().includes(this.search.toLowerCase())
+        data.ip
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
       )
     }
   }

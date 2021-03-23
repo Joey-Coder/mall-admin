@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <h4>List</h4>
+  <div class="members">
+    <complex-table />
   </div>
 </template>
 
 <script>
+import complexTable from './components/ComplexTable'
 export default {
   name: 'MembersList',
-  components: {},
+  components: {
+    complexTable
+  },
   props: {},
   data() {
     return {}
@@ -19,4 +22,9 @@ export default {
   methods: {}
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.members {
+  padding: 3rem 1rem;
+  background-color: #fff;
+}
+</style>
