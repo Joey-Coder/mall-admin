@@ -26,6 +26,6 @@ export default {
 <style scoped lang="scss">
 .order-list {
   background-color: #fff;
-  padding: 3rem;
+  padding: 3rem 1rem;
 }
 </style>

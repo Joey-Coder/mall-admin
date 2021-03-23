@@ -1,30 +1,5 @@
 <template>
   <div class="complex-table">
-    <!-- 筛选区域 -->
-    <div class="filter-container">
-      <el-input
-        v-model="listQuery.title"
-        placeholder="Title"
-        style="width: 200px"
-        class="filter-item"
-      />
-      <el-date-picker
-        v-model="listQuery.date"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        :picker-options="pickerOptions"
-      />
-      <el-button
-        class="filter-item"
-        type="primary"
-        icon="el-icon-search"
-        @click="handleFilter"
-      >
-        搜索商品
-      </el-button>
-    </div>
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
@@ -76,6 +51,11 @@
       >
         <template slot-scope="scope">
           {{ scope.row.shipping }}
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" align="center" width="120">
+        <template slot-scope="scope">
+          {{ scope.row.tip }}
         </template>
       </el-table-column>
       <!-- 创建日期 -->
@@ -152,10 +132,25 @@
           <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
         </template>
         <template slot-scope="{ row, $index }">
-          <el-button type="primary" icon="el-icon-edit" size="mini" />
-          <el-button size="mini" type="success" icon="el-icon-s-promotion" />
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="备注"
+            placement="bottom"
+          >
+            <el-button type="primary" icon="el-icon-edit" size="mini" />
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="发货"
+            placement="bottom"
+          >
+            <el-button size="mini" type="success" icon="el-icon-s-promotion" />
+          </el-tooltip>
+
           <el-popconfirm
-            title="确认取消?"
+            title="确认取消订单?"
             style="margin-left: 10px"
             @onConfirm="handleDelete(row, $index)"
           >
@@ -177,17 +172,12 @@
       :limit.sync="listQuery.limit"
       @pagination="fetchData"
     />
-    <!-- 商品编辑dialog -->
-    <product-dialog ref="productDialogRef" :temp="temp" :tree-data="treeData" />
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/order'
 import Pagination from '@/components/Pagination'
-// import Dropzone from '@/components/Dropzone'
-// import Tinymce from '@/components/Tinymce'
-// import ProductDialog from './ProductDialog'
 import { parseTime, randomString } from '@/utils/index'
 
 export default {
@@ -202,10 +192,7 @@ export default {
     }
   },
   components: {
-    Pagination,
-    // Dropzone,
-    // Tinymce,
-    ProductDialog: () => import('./ProductDialog')
+    Pagination
   },
   props: {
     treeData: {
@@ -232,6 +219,7 @@ export default {
           order: null
         }
       },
+      // 被选中的订单
       multiSelection: [],
       search: '',
       // 快捷日期搜索
@@ -326,19 +314,27 @@ export default {
       this.listQuery.sortBy.col = column.label
       this.listQuery.sortBy.order = order
     },
+    // 数据筛选功能
     tableFilter(data) {
       return (
         !this.search ||
-        data.name.toLowerCase().includes(this.search.toLowerCase()) ||
         data.id.toLowerCase().includes(this.search.toLowerCase()) ||
         data.title.toLowerCase().includes(this.search.toLowerCase()) ||
         data.author.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.desc.toLowerCase().includes(this.search.toLowerCase()) ||
+        data.status.toLowerCase().includes(this.search.toLowerCase()) ||
         data.create_time
           .toString()
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
-        data.update_time
+        data.pay_time
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toLowerCase()) ||
+        data.close_time
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toLowerCase()) ||
+        data.finish_time
           .toString()
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
@@ -346,7 +342,7 @@ export default {
           .toString()
           .toLowerCase()
           .includes(this.search.toLowerCase()) ||
-        data.name.toLowerCase().includes(this.search.toLowerCase())
+        data.shipping.toLowerCase().includes(this.search.toLowerCase())
       )
     }
   }
@@ -357,19 +353,10 @@ export default {
 .complex-table {
   width: 100%;
   overflow: scroll;
-  .filter-container {
-    display: flex;
-    justify-content: center;
-    .el-input,
-    .el-date-editor {
-      margin-right: 1rem;
-    }
-  }
   .toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 2rem;
     padding: 0.5rem 1rem;
     background-color: #f0f0f5;
     border-radius: 0.5rem;
