@@ -15,7 +15,7 @@
         <el-radio v-model="adminForm.gender" label="2">女</el-radio>
       </el-form-item>
       <el-form-item label="手机">
-        <el-input v-model="adminForm.name" />
+        <el-input v-model="adminForm.phone" />
       </el-form-item>
       <el-form-item label="邮箱">
         <el-input v-model="adminForm.email" />

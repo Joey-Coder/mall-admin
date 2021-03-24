@@ -3,7 +3,9 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
-        <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
+        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
+          >批量删除</el-button
+        >
         <el-button type="primary" icon="el-icon-plus" @click="addAdmin"
           >添加管理员</el-button
         >
@@ -123,15 +125,15 @@ import { randomString } from '@/utils/index'
 import AdminDialog from './AdminDialog'
 
 export default {
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        已发布: 'success',
-        已下架: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
+  // filters: {
+  //   statusFilter(status) {
+  //     const statusMap = {
+  //       已发布: 'success',
+  //       已下架: 'danger'
+  //     }
+  //     return statusMap[status]
+  //   }
+  // },
   components: {
     Pagination,
     AdminDialog
@@ -194,15 +196,30 @@ export default {
       })
     },
 
-    handleDelete(row, index) {
-      this.list.splice(index, 1)
-      this.deleteDialogVisible = false
-      this.$notify({
-        title: 'Success',
-        message: 'Delete Successfully',
-        type: 'success',
-        duration: 2000
-      })
+    handleDelete() {
+      if (this.multiSelection.length === 0) {
+        this.$notify({
+          title: '提示',
+          message: '请勾选删除项',
+          type: 'warning',
+          duration: 2000
+        })
+      } else {
+        for (let i = 0; i < this.multiSelection.length; i++) {
+          const t = this.multiSelection[i]
+          for (let j = 0; j < this.list.length; j++) {
+            if (t.id === this.list[j].id) {
+              this.list.splice(j, 1)
+            }
+          }
+        }
+        this.$notify({
+          title: '提示',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+      }
     },
 
     handleSelectionChange(val) {
