@@ -6,6 +6,7 @@
     status-icon
   >
     <el-form
+      ref="formRef"
       :rules="rules"
       :model="passwordForm"
       label-width="80px"
@@ -15,10 +16,10 @@
         {{ temp.name }}
       </el-form-item>
       <el-form-item label="新密码" prop="password">
-        <el-input v-model="passwordForm.password" />
+        <el-input v-model="passwordForm.password" type="password" />
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmPassword">
-        <el-input v-model="passwordForm.confirmPassword" />
+        <el-input v-model="passwordForm.confirmPassword" type="password" />
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -62,6 +63,15 @@ export default {
           { min: 6, message: '密码长度至少为6', trigger: 'blur' },
           { validator: validatePass2, trigger: 'blur' }
         ]
+      }
+    }
+  },
+  watch: {
+    dialogVisible: function(val) {
+      if (val === false) {
+        this.passwordForm.password = null
+        this.passwordForm.confirmPassword = null
+        this.$refs.formRef.clearValidate()
       }
     }
   }

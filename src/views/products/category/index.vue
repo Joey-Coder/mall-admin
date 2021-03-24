@@ -11,24 +11,26 @@
         :props="defaultProps"
         @node-click="handleNodeClick"
       />
-      <el-form ref="form" :model="category" label-width="6rem">
-        <el-form-item label="分类名称">
+      <el-form ref="form" :rules="rules" :model="category" label-width="120px">
+        <el-form-item label="分类名称" prop="name">
           <el-input v-model="category.name" />
         </el-form-item>
-        <el-form-item label="是否为父节点">
+        <el-form-item label="是否为父节点" prop="isParent">
           <el-switch v-model="category.isParent" />
         </el-form-item>
         <el-form-item label="选择父节点" class="choice-parent">
           <el-input v-model="category.parentName" />
-          <el-button type="primary" @click="dialogVisible = true">选择父节点分类</el-button>
+          <el-button type="primary" @click="dialogVisible = true"
+            >选择父节点分类</el-button
+          >
         </el-form-item>
-        <el-form-item label="优先值排序">
+        <el-form-item label="优先值排序" prop="sort">
           <el-input
             v-model.number="category.sort"
             placeholder="请输入0-9999，值越小越靠前"
           />
         </el-form-item>
-        <el-form-item label="是否启用">
+        <el-form-item label="是否启用" prop="isActive">
           <el-switch v-model="category.isActive" />
         </el-form-item>
         <el-form-item label="备注">
@@ -52,7 +54,9 @@
         />
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="dialogVisible = false"
+            >确 定</el-button
+          >
         </span>
       </el-dialog>
     </div>
@@ -134,7 +138,18 @@ export default {
         isActive: false,
         tip: null
       },
-      dialogVisible: false
+      dialogVisible: false,
+      rules: {
+        name: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
+        isParent: [
+          { required: true, message: '请入分类名称', trigger: 'blur' }
+        ],
+        sort: [
+          { required: true, message: '请入分类名称', trigger: 'blur' },
+          { type: 'number', message: '请输入数值', trigger: 'blur' }
+        ],
+        isActive: [{ required: true, message: '请入分类名称', trigger: 'blur' }]
+      }
     }
   },
   computed: {},
@@ -183,7 +198,7 @@ export default {
       padding-right: 3rem;
     }
     .el-form {
-      width: 60%;
+      width: 80%;
       .choice-parent {
         .el-input {
           width: 60%;

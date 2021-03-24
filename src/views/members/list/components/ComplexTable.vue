@@ -28,16 +28,17 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
-        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
-          >批量删除</el-button
-        >
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleDelete"
+        >批量删除</el-button>
         <el-button
           type="primary"
           icon="el-icon-s-promotion
 "
           @click="handleSend"
-          >批量发送</el-button
-        >
+        >批量发送</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -153,7 +154,7 @@
     <!-- 成员编辑dialog -->
     <member-dialog ref="memberDialogRef" :temp="temp" />
     <!-- 修改密码dialog -->
-    <password-dialog :temp="temp" ref="passwordDialogRef" />
+    <password-dialog ref="passwordDialogRef" :temp="temp" />
     <!-- 发送模版dialog -->
     <el-dialog title="发送模版" :visible.sync="sendDialogVisible" width="40%">
       <div style="margin-bottom: 1rem; display: flex">
@@ -184,9 +185,10 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="sendDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="sendDialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button
+          type="primary"
+          @click="sendDialogVisible = false"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -197,7 +199,7 @@ import { getList } from '@/api/members'
 import Pagination from '@/components/Pagination'
 import { parseTime, randomString } from '@/utils/index'
 import MemberDialog from './MemberDialog'
-import PasswordDialog from './PasswordDialog'
+import PasswordDialog from '@/components/PasswordDialog'
 
 export default {
   filters: {

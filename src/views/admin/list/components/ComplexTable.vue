@@ -3,16 +3,12 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
-        <el-button
-          type="danger"
-          icon="el-icon-delete"
-          @click="handleDelete"
-        >批量删除</el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          @click="addAdmin"
-        >添加管理员</el-button>
+        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
+          >批量删除</el-button
+        >
+        <el-button type="primary" icon="el-icon-plus" @click="addAdmin"
+          >添加管理员</el-button
+        >
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -65,10 +61,7 @@
             type="danger"
             icon="el-icon-key"
             size="mini"
-            @click="
-              index = $index
-              passwordDialogVisible = true
-            "
+            @click="handleChangePassword(row)"
           />
         </template>
       </el-table-column>
@@ -82,39 +75,7 @@
       @pagination="fetchData"
     />
     <!-- 修改密码dialog -->
-    <el-dialog
-      title="修改密码"
-      :visible.sync="passwordDialogVisible"
-      width="30%"
-    >
-      <el-form :model="passwordForm" label-width="80px">
-        <el-form-item label="账号">
-          {{ index != null && list[index].account }}
-          <!-- sfsdfd -->
-        </el-form-item>
-        <el-form-item label="新密码">
-          <el-input v-model="passwordForm.password" />
-        </el-form-item>
-        <el-form-item label="确认密码">
-          <el-input v-model="passwordForm.confirmPassword" />
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button
-          @click="
-            index = null
-            passwordDialogVisible = false
-          "
-        >取 消</el-button>
-        <el-button
-          type="primary"
-          @click="
-            index = null
-            passwordDialogVisible = false
-          "
-        >确 定</el-button>
-      </span>
-    </el-dialog>
+    <password-dialog ref="passwordDialogRef" :temp="temp" />
     <!-- 添加管理员dialog -->
     <admin-dialog ref="adminDialogRef" :temp="temp" :is-edit="isEdit" />
   </div>
@@ -125,6 +86,7 @@ import { getList } from '@/api/admin'
 import Pagination from '@/components/Pagination'
 import { randomString } from '@/utils/index'
 import AdminDialog from './AdminDialog'
+import PasswordDialog from '@/components/PasswordDialog'
 
 export default {
   // filters: {
@@ -138,7 +100,8 @@ export default {
   // },
   components: {
     Pagination,
-    AdminDialog
+    AdminDialog,
+    PasswordDialog
   },
   props: {},
   data() {
@@ -156,14 +119,9 @@ export default {
           order: null
         }
       },
-      passwordForm: {
-        password: null,
-        confirmPassword: null
-      },
       multiSelection: [],
       search: '',
       index: null,
-      passwordDialogVisible: false,
       isEdit: true
     }
   },
@@ -188,6 +146,10 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       this.$refs.adminDialogRef.dialogVisible = true
       // this.dialogVisible = true
+    },
+    handleChangePassword(row) {
+      this.temp = Object.assign({}, row)
+      this.$refs.passwordDialogRef.dialogVisible = true
     },
     fetchData() {
       this.listLoading = true

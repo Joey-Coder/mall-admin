@@ -1,6 +1,12 @@
 <template>
   <el-dialog title="编辑用户" :visible.sync="dialogVisible" width="40%">
-    <el-form :model="memberForm" label-width="80px" :rules="rules">
+    <el-form
+      ref="formRef"
+      :model="memberForm"
+      label-width="80px"
+      :rules="rules"
+      status-icon
+    >
       <el-form-item label="用户名" prop="name">
         <el-input v-model="memberForm.name" />
       </el-form-item>
@@ -55,7 +61,6 @@
 
 <script>
 import { regionDataPlus } from 'element-china-area-data'
-import { call } from 'body-parser'
 export default {
   props: {
     temp: {
@@ -111,6 +116,11 @@ export default {
   watch: {
     temp: function(val) {
       this.memberForm = this.temp
+    },
+    dialogVisible: function(val) {
+      if (val === false) {
+        this.$refs.formRef.clearValidate()
+      }
     }
   },
   methods: {

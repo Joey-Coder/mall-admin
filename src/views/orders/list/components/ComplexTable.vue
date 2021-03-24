@@ -194,8 +194,14 @@
     />
     <!-- 发货dialog -->
     <el-dialog title="发货" :visible.sync="sendDialogVisible" width="40%">
-      <el-form :model="shippingForm" label-width="80px">
-        <el-form-item label="快递名称">
+      <el-form ref="shippingFormRef" :model="shippingForm" label-width="80px">
+        <el-form-item
+          label="快递名称"
+          :rules="[
+            { required: true, message: '请选择一个快递', trigger: 'blur' }
+          ]"
+          prop="name"
+        >
           <el-select v-model="shippingForm.name" placeholder="请选择">
             <el-option
               v-for="item in shippingOptions"
@@ -205,10 +211,21 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="快递单号">
+        <el-form-item
+          label="快递单号"
+          prop="id"
+          :rules="[{ required: true, message: '请输入单号', trigger: 'blur' }]"
+        >
           <el-input v-model="shippingForm.id" />
         </el-form-item>
-        <el-form-item label="运费">
+        <el-form-item
+          label="运费"
+          prop="cost"
+          :rules="[
+            { required: true, message: '请输入运费', trigger: 'blur' },
+            { type: 'number', message: '请输入数额', trigger: 'blur' }
+          ]"
+        >
           <el-input v-model="shippingForm.cost" />
         </el-form-item>
       </el-form>
@@ -351,6 +368,16 @@ export default {
         }
       ],
       exportLoading: false
+    }
+  },
+  watch: {
+    sendDialogVisible: function(val) {
+      if (val === false) {
+        this.shippingForm.id = null
+        this.shippingForm.name = null
+        this.shippingForm.cost = null
+        this.$refs.shippingFormRef.clearValidate()
+      }
     }
   },
   created() {
