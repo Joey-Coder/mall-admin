@@ -137,10 +137,7 @@
             type="danger"
             icon="el-icon-key"
             size="mini"
-            @click="
-              index = $index
-              passwordDialogVisible = true
-            "
+            @click="handleChangePassword(row)"
           />
         </template>
       </el-table-column>
@@ -156,41 +153,7 @@
     <!-- 成员编辑dialog -->
     <member-dialog ref="memberDialogRef" :temp="temp" />
     <!-- 修改密码dialog -->
-    <el-dialog
-      title="修改密码"
-      :visible.sync="passwordDialogVisible"
-      width="30%"
-    >
-      <el-form :model="passwordForm" label-width="80px">
-        <el-form-item label="账号">
-          {{ index != null && list[index].name }}
-          <!-- sfsdfd -->
-        </el-form-item>
-        <el-form-item label="新密码">
-          <el-input v-model="passwordForm.password" />
-        </el-form-item>
-        <el-form-item label="确认密码">
-          <el-input v-model="passwordForm.confirmPassword" />
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button
-          @click="
-            index = null
-            passwordDialogVisible = false
-          "
-          >取 消</el-button
-        >
-        <el-button
-          type="primary"
-          @click="
-            index = null
-            passwordDialogVisible = false
-          "
-          >确 定</el-button
-        >
-      </span>
-    </el-dialog>
+    <password-dialog :temp="temp" ref="passwordDialogRef" />
     <!-- 发送模版dialog -->
     <el-dialog title="发送模版" :visible.sync="sendDialogVisible" width="40%">
       <div style="margin-bottom: 1rem; display: flex">
@@ -234,6 +197,7 @@ import { getList } from '@/api/members'
 import Pagination from '@/components/Pagination'
 import { parseTime, randomString } from '@/utils/index'
 import MemberDialog from './MemberDialog'
+import PasswordDialog from './PasswordDialog'
 
 export default {
   filters: {
@@ -247,7 +211,8 @@ export default {
   },
   components: {
     Pagination,
-    MemberDialog
+    MemberDialog,
+    PasswordDialog
   },
   props: {
     treeData: {
@@ -275,7 +240,7 @@ export default {
         }
       },
       multiSelection: [],
-      memberSelected: ['a'],
+      memberSelected: [],
       search: '',
       // 快捷日期搜索
       pickerOptions: {
@@ -309,11 +274,10 @@ export default {
           }
         ]
       },
-      passwordDialogVisible: false,
       index: null,
       passwordForm: {
-        password: null,
-        confirmPassword: null
+        password: '',
+        confirmPassword: ''
       },
       sendDialogVisible: false,
       sendValue: '',
@@ -394,6 +358,10 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       //  更新时间
       this.$refs.memberDialogRef.dialogVisible = true
+    },
+    handleChangePassword(row) {
+      this.temp = Object.assign({}, row)
+      this.$refs.passwordDialogRef.dialogVisible = true
     },
     handleSelectionChange(val) {
       this.multiSelection = val
