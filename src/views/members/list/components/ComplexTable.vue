@@ -28,9 +28,11 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
-        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
-          >批量删除</el-button
-        >
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleDelete"
+        >批量删除</el-button>
         <!-- <el-button type="primary" icon="el-icon-plus" @click="addProduct"
           >添加商品</el-button
         > -->
@@ -123,21 +125,21 @@
           <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
         </template>
         <template slot-scope="{ row, $index }">
-          <el-button type="primary" icon="el-icon-edit" size="mini" />
-          <el-button type="danger" icon="el-icon-key" size="mini" />
-          <!-- <el-popconfirm
-            title="确认删除?"
-            style="margin-left: 10px"
-            @onConfirm="handleDelete(row, $index)"
-          >
-            <el-button
-              v-if="row.status != 'deleted'"
-              slot="reference"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
-            />
-          </el-popconfirm> -->
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            size="mini"
+            @click="handleUpdate(row)"
+          />
+          <el-button
+            type="danger"
+            icon="el-icon-key"
+            size="mini"
+            @click="
+              index = $index
+              passwordDialogVisible = true
+            "
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -149,8 +151,42 @@
       :limit.sync="listQuery.limit"
       @pagination="fetchData"
     />
-    <!-- 商品编辑dialog -->
-    <product-dialog ref="productDialogRef" :temp="temp" :tree-data="treeData" />
+    <!-- 成员编辑dialog -->
+    <member-dialog ref="memberDialogRef" :temp="temp" />
+    <!-- 修改密码dialog -->
+    <el-dialog
+      title="修改密码"
+      :visible.sync="passwordDialogVisible"
+      width="30%"
+    >
+      <el-form :model="passwordForm" label-width="80px">
+        <el-form-item label="账号">
+          {{ index != null && list[index].name }}
+          <!-- sfsdfd -->
+        </el-form-item>
+        <el-form-item label="新密码">
+          <el-input v-model="passwordForm.password" />
+        </el-form-item>
+        <el-form-item label="确认密码">
+          <el-input v-model="passwordForm.confirmPassword" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button
+          @click="
+            index = null
+            passwordDialogVisible = false
+          "
+        >取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            index = null
+            passwordDialogVisible = false
+          "
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -158,7 +194,7 @@
 import { getList } from '@/api/members'
 import Pagination from '@/components/Pagination'
 import { parseTime, randomString } from '@/utils/index'
-import ProductDialog from './ProductDialog'
+import MemberDialog from './MemberDialog'
 
 export default {
   filters: {
@@ -172,7 +208,7 @@ export default {
   },
   components: {
     Pagination,
-    ProductDialog
+    MemberDialog
   },
   props: {
     treeData: {
@@ -233,7 +269,12 @@ export default {
           }
         ]
       },
-      deleteDialogVisible: false
+      passwordDialogVisible: false,
+      index: null,
+      passwordForm: {
+        password: null,
+        confirmPassword: null
+      }
     }
   },
   created() {
@@ -295,11 +336,7 @@ export default {
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
       //  更新时间
-      this.temp.update_time = parseTime(new Date())
-      console.log(this.temp)
-      this.dialogStatus = 'update'
-      this.$refs.productDialogRef.dialogVisible = true
-      // this.dialogVisible = true
+      this.$refs.memberDialogRef.dialogVisible = true
     },
     handleSelectionChange(val) {
       this.multiSelection = val

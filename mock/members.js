@@ -6,6 +6,7 @@ const data = Mock.mock({
     {
       id: '@id',
       name: '@csentence(5,10)',
+      'gender|1': ['1', '2'],
       ip: '@ip',
       phone: '@natural(13000000000, 14000000000)',
       email: '@email',
