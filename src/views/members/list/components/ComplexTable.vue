@@ -28,14 +28,16 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
+        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
+          >批量删除</el-button
+        >
         <el-button
-          type="danger"
-          icon="el-icon-delete"
-          @click="handleDelete"
-        >批量删除</el-button>
-        <!-- <el-button type="primary" icon="el-icon-plus" @click="addProduct"
-          >添加商品</el-button
-        > -->
+          type="primary"
+          icon="el-icon-s-promotion
+"
+          @click="handleSend"
+          >批量发送</el-button
+        >
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -177,14 +179,51 @@
             index = null
             passwordDialogVisible = false
           "
-        >取 消</el-button>
+          >取 消</el-button
+        >
         <el-button
           type="primary"
           @click="
             index = null
             passwordDialogVisible = false
           "
-        >确 定</el-button>
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- 发送模版dialog -->
+    <el-dialog title="发送模版" :visible.sync="sendDialogVisible" width="40%">
+      <div style="margin-bottom: 1rem; display: flex">
+        <div style="width: 200px">已选择用户：</div>
+        <div>
+          <el-badge
+            v-for="item in memberSelected"
+            :key="item.id"
+            :value="item.name"
+            type="info"
+          />
+        </div>
+      </div>
+      <div>
+        <span>请选择模版： </span>
+        <el-select
+          v-model="sendValue"
+          placeholder="请选择模版"
+          style="width: 70%"
+        >
+          <el-option
+            v-for="item in sendOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="sendDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sendDialogVisible = false"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -236,6 +275,7 @@ export default {
         }
       },
       multiSelection: [],
+      memberSelected: ['a'],
       search: '',
       // 快捷日期搜索
       pickerOptions: {
@@ -274,8 +314,25 @@ export default {
       passwordForm: {
         password: null,
         confirmPassword: null
-      }
+      },
+      sendDialogVisible: false,
+      sendValue: '',
+      sendOptions: [
+        {
+          value: '1',
+          label: '模版 1'
+        },
+        {
+          value: '2',
+          label: '模版 2'
+        }
+      ]
     }
+  },
+  watch: {
+    // multiSelection: function(val) {
+    //   this.memberSelected = this.multiSelection
+    // }
   },
   created() {
     this.fetchData()
@@ -370,6 +427,19 @@ export default {
           .toLowerCase()
           .includes(this.search.toLowerCase())
       )
+    },
+    handleSend() {
+      if (this.multiSelection.length === 0) {
+        this.$notify({
+          title: '提示',
+          message: '请勾选用户',
+          type: 'warning',
+          duration: 2000
+        })
+      } else {
+        this.memberSelected = this.multiSelection
+        this.sendDialogVisible = true
+      }
     }
   }
 }

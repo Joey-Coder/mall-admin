@@ -69,7 +69,11 @@
       </div>
 
       <el-form-item label="图片上传">
-        <dropzone :id="product.id" url="https://httpbin.org/post" />
+        <dropzone
+          :id="product.id"
+          url="https://httpbin.org/post"
+          @dropzone-success="handleDropzoneSuccess"
+        />
       </el-form-item>
       <el-form-item label="产品详情">
         <tinymce v-model="product.content" :height="300" />
@@ -93,7 +97,9 @@
       />
       <span slot="footer" class="dialog-footer">
         <el-button @click="categoryDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="categoryDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="categoryDialogVisible = false"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </el-dialog>
@@ -156,6 +162,9 @@ export default {
     handleNodeClick(data) {
       //   console.log(data)
       this.product.category = data.label
+    },
+    handleDropzoneSuccess(file, ele) {
+      console.log('file:', file)
     }
   }
 }
