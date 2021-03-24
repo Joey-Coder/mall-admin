@@ -3,12 +3,16 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
-        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
-          >批量删除</el-button
-        >
-        <el-button type="primary" icon="el-icon-plus" @click="addAdmin"
-          >添加管理员</el-button
-        >
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleDelete"
+        >批量删除</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          @click="addAdmin"
+        >添加管理员</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -101,20 +105,18 @@
             index = null
             passwordDialogVisible = false
           "
-          >取 消</el-button
-        >
+        >取 消</el-button>
         <el-button
           type="primary"
           @click="
             index = null
             passwordDialogVisible = false
           "
-          >确 定</el-button
-        >
+        >确 定</el-button>
       </span>
     </el-dialog>
     <!-- 添加管理员dialog -->
-    <admin-dialog ref="adminDialogRef" :temp="temp" :isEdit="isEdit" />
+    <admin-dialog ref="adminDialogRef" :temp="temp" :is-edit="isEdit" />
   </div>
 </template>
 
