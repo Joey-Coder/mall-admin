@@ -1,8 +1,8 @@
 <template>
-  <div class="total-chart-wrapper">
-    <div class="total-chart" style="width: 600px;height:400px;" />
+  <div class="total-chart-wrapper" style="width: 100%">
+    <div class="total-chart" style="width: 100%;height:400px;" />
     <el-select
-      v-model="value"
+      v-model="year"
       placeholder="年份"
       class="year-selector"
       size="mini"
@@ -15,7 +15,7 @@
       />
     </el-select>
     <el-select
-      v-model="value"
+      v-model="month"
       placeholder="月份"
       class="month-selector"
       size="mini"
@@ -33,9 +33,12 @@
 
 <script>
 import echarts from 'echarts'
+import resize from './mixins/resize'
+
 export default {
   name: 'TotalChart',
   components: {},
+  mixins: [resize],
   props: {},
   data() {
     return {
@@ -104,7 +107,8 @@ export default {
           label: '12月'
         }
       ],
-      value: '',
+      year: '',
+      month: '',
       // x轴刻度
       xData: [
         '1月',
@@ -206,17 +210,17 @@ export default {
         grid: {
           top: 90
         },
-        dataZoom: [
-          {
-            type: 'inside',
-            start: 0,
-            end: 50
-          },
-          {
-            start: 0,
-            end: 50
-          }
-        ],
+        // dataZoom: [
+        //   {
+        //     type: 'inside',
+        //     start: 0,
+        //     end: 50
+        //   },
+        //   {
+        //     start: 0,
+        //     end: 50
+        //   }
+        // ],
 
         tooltip: {
           trigger: 'axis'
@@ -269,13 +273,13 @@ export default {
   .year-selector {
     position: absolute;
     top: 5px;
-    left: calc(600px - 10rem);
-    width: 4.5rem;
+    left: calc(100% - 10rem);
+    width: 5rem;
   }
   .month-selector {
     position: absolute;
     top: 5px;
-    left: calc(600px - 5rem);
+    left: calc(100% - 5rem);
     width: 4.5rem;
   }
 }

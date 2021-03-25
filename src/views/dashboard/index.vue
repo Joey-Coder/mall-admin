@@ -4,10 +4,19 @@
       <panel-group />
     </section>
     <section class="data-charts">
-      <total-chart />
-      <pie-chart />
-      <order-chart />
-      <visit-chart />
+      <div class="chart-wrapper">
+        <total-chart />
+      </div>
+      <div class="chart-wrapper">
+        <pie-chart />
+      </div>
+      <div class="chart-wrapper">
+        <order-chart />
+      </div>
+      <div class="chart-wrapper">
+        <visit-chart />
+      </div>
+
       <!-- 转化率 -->
       <div class="conversion">
         <div class="conversion-title">
@@ -49,7 +58,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_g.png">
+            <img src="../../assets/platform/ic_g.png" />
             <p class="visitor">Google</p>
           </div>
           <div class="data">
@@ -59,7 +68,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_facebook.png">
+            <img src="../../assets/platform/ic_facebook.png" />
             <p class="visitor">FaceBook</p>
           </div>
           <div class="data">
@@ -69,7 +78,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_ins.png">
+            <img src="../../assets/platform/ic_ins.png" />
             <p class="visitor">Instagram</p>
           </div>
           <div class="data">
@@ -79,7 +88,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_wechat.png">
+            <img src="../../assets/platform/ic_wechat.png" />
             <p class="visitor">WeChat</p>
           </div>
           <div class="data">
@@ -89,7 +98,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_whatsapp.png">
+            <img src="../../assets/platform/ic_whatsapp.png" />
             <p class="visitor">Whatsapp</p>
           </div>
           <div class="data">
@@ -131,17 +140,29 @@ export default {
 <style lang="scss" scoped>
 .dashboard {
   &-container {
-    margin: 30px;
+    padding: 30px;
     .data-charts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      column-gap: 1rem;
-      row-gap: 1.5rem;
+      // display: grid;
+      // grid-template-columns: 1fr 1fr;
+      // grid-template-rows: 1fr 1fr;
+      // column-gap: 1rem;
+      // row-gap: 1.5rem;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-items: center;
+      justify-content: space-between;
+      .chart-wrapper,
+      .conversion,
+      .platform {
+        flex: 0 0 49%;
+        // width: 100%;
+        margin-bottom: 16px;
+      }
       .conversion {
         background-color: #fff;
         padding: 2rem;
-        width: 600px;
+        width: 100%;
         p {
           margin: 0;
         }
@@ -213,6 +234,22 @@ export default {
   &-text {
     font-size: 30px;
     line-height: 46px;
+  }
+}
+
+@media (max-width: 998px) {
+  .dashboard {
+    &-container {
+      .data-charts {
+        // grid-template-columns: 1fr;
+        // column-gap: unset;
+        .chart-wrapper,
+        .conversion,
+        .platform {
+          flex: 0 0 98%;
+        }
+      }
+    }
   }
 }
 </style>

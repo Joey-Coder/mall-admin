@@ -1,12 +1,14 @@
 <template>
-  <div class="visited-chart" style="width: 600px;height:400px;">sdfs</div>
+  <div class="visited-chart" style="width: 100%;height:400px;">sdfs</div>
 </template>
 
 <script>
 import echarts from 'echarts'
+import resize from './mixins/resize'
 export default {
   name: 'VisitedChart',
   components: {},
+  mixins: [resize],
   props: {},
   data() {
     return {

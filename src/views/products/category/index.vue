@@ -20,9 +20,10 @@
         </el-form-item>
         <el-form-item label="选择父节点" class="choice-parent">
           <el-input v-model="category.parentName" />
-          <el-button type="primary" @click="dialogVisible = true"
-            >选择父节点分类</el-button
-          >
+          <el-button
+            type="primary"
+            @click="dialogVisible = true"
+          >选择父节点分类</el-button>
         </el-form-item>
         <el-form-item label="优先值排序" prop="sort">
           <el-input
@@ -54,9 +55,10 @@
         />
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >确 定</el-button
-          >
+          <el-button
+            type="primary"
+            @click="dialogVisible = false"
+          >确 定</el-button>
         </span>
       </el-dialog>
     </div>

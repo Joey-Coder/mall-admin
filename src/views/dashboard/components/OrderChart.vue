@@ -1,12 +1,14 @@
 <template>
-  <div class="order-chart" style="width: 600px;height:400px;" />
+  <div class="order-chart" style="width: 100%; height:400px;" />
 </template>
 
 <script>
 import echarts from 'echarts'
+import resize from './mixins/resize'
 export default {
   name: 'OrderChart',
   components: {},
+  mixins: [resize],
   props: {},
   data() {
     return {

@@ -127,7 +127,7 @@
         <template slot="header">
           <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
         </template>
-        <template slot-scope="{ row, $index }">
+        <template slot-scope="{ row }">
           <el-button
             type="primary"
             icon="el-icon-edit"
