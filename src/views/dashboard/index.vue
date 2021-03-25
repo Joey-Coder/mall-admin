@@ -58,7 +58,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_g.png" />
+            <img src="../../assets/platform/ic_g.png">
             <p class="visitor">Google</p>
           </div>
           <div class="data">
@@ -68,7 +68,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_facebook.png" />
+            <img src="../../assets/platform/ic_facebook.png">
             <p class="visitor">FaceBook</p>
           </div>
           <div class="data">
@@ -78,7 +78,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_ins.png" />
+            <img src="../../assets/platform/ic_ins.png">
             <p class="visitor">Instagram</p>
           </div>
           <div class="data">
@@ -88,7 +88,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_wechat.png" />
+            <img src="../../assets/platform/ic_wechat.png">
             <p class="visitor">WeChat</p>
           </div>
           <div class="data">
@@ -98,7 +98,7 @@
         </div>
         <div class="platform-item">
           <div class="icon">
-            <img src="../../assets/platform/ic_whatsapp.png" />
+            <img src="../../assets/platform/ic_whatsapp.png">
             <p class="visitor">Whatsapp</p>
           </div>
           <div class="data">

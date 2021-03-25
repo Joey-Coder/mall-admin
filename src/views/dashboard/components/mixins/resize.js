@@ -10,7 +10,7 @@ export default {
   mounted() {
     this.$_resizeHandler = debounce(() => {
       if (this.chart) {
-        console.log('resize')
+        // console.log('resize')
         this.chart.resize()
       }
     }, 100)
