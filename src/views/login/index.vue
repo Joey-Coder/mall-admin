@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
-    <!-- <video
-      src="@/assets/working-man.mp4"
+    <video
+      src="@/assets/background/working-man.mp4"
       autoplay
       loop="true"
       muted
       class="video-bg"
-    /> -->
+    />
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -61,8 +61,7 @@
         type="primary"
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
-        >Login</el-button
-      >
+      >Login</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -209,27 +208,27 @@ $light_gray: #eee;
   width: 100%;
   background-color: transparent;
   overflow: hidden;
-  // .video-bg {
-  //   width: 100vw;
-  //   height: 100%;
-  //   position: absolute;
-  //   z-index: -1;
-  //   object-fit: cover;
-  //   object-position: top center;
-  // }
-  &::before {
-    content: '';
-    display: block;
+  .video-bg {
+    width: 100vw;
+    height: 100%;
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: url('../../assets/background_images/cool-background.png') fixed no-repeat;
-    background-size: cover;
-    background-position: top center;
     z-index: -1;
+    object-fit: cover;
+    object-position: top center;
   }
+  // &::before {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  //   right: 0;
+  //   bottom: 0;
+  //   background: url('../../assets/background/cool-background.png') fixed no-repeat;
+  //   background-size: cover;
+  //   background-position: top center;
+  //   z-index: -1;
+  // }
   .login-form {
     position: relative;
     width: 520px;

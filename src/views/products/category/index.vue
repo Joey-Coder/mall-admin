@@ -12,8 +12,20 @@
         @node-click="handleNodeClick"
       />
       <el-form ref="form" :rules="rules" :model="category" label-width="120px">
-        <el-form-item label="分类名称" prop="name">
-          <el-input v-model="category.name" />
+        <el-form-item label="分类名称(中文)" prop="name">
+          <el-input v-model="category.nameZh" />
+        </el-form-item>
+        <el-form-item label="分类名称(英文)" prop="name">
+          <el-input v-model="category.nameUs" />
+        </el-form-item>
+        <el-form-item label="分类名称(俄文)" prop="name">
+          <el-input v-model="category.nameEls" />
+        </el-form-item>
+        <el-form-item label="分类名称(阿拉伯文)" prop="name">
+          <el-input v-model="category.nameAlb" />
+        </el-form-item>
+        <el-form-item label="分类名称(土耳其文)" prop="name">
+          <el-input v-model="category.nameTeq" />
         </el-form-item>
         <el-form-item label="是否为父节点" prop="isParent">
           <el-switch v-model="category.isParent" />
@@ -133,7 +145,11 @@ export default {
         label: 'label'
       },
       category: {
-        name: null,
+        nameZh: null,
+        nameEls: null,
+        nameUs: null,
+        nameTeq: null,
+        nameAlb: null,
         isParent: false,
         parentName: null,
         sort: null,
@@ -142,7 +158,11 @@ export default {
       },
       dialogVisible: false,
       rules: {
-        name: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
+        nameZh: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
+        nameUs: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
+        nameEls: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
+        nameAlb: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
+        nameTeq: [{ required: true, message: '请入分类名称', trigger: 'blur' }],
         isParent: [
           { required: true, message: '请入分类名称', trigger: 'blur' }
         ],
@@ -193,7 +213,7 @@ export default {
     background-color: #fff;
     padding: 3rem;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 5fr;
     column-gap: 1rem;
     .el-tree {
       background-color: transparent;

@@ -3,12 +3,16 @@
     <!-- 添加删除区域 -->
     <div class="toolbar">
       <div>
-        <el-button type="danger" icon="el-icon-delete" @click="handleDelete"
-          >批量删除</el-button
-        >
-        <el-button type="primary" icon="el-icon-plus" @click="addAdmin"
-          >添加管理员</el-button
-        >
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleDelete"
+        >批量删除</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          @click="addAdmin"
+        >添加管理员</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
