@@ -78,8 +78,36 @@
           @dropzone-success="handleDropzoneSuccess"
         />
       </el-form-item>
+      <!-- 选择语言 -->
+      <el-form-item label="选择语言">
+        <el-radio-group v-model="language">
+          <el-radio :label="0">英语</el-radio>
+          <el-radio :label="1">俄语</el-radio>
+          <el-radio :label="2">土耳其语</el-radio>
+          <el-radio :label="3">阿拉伯语</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="产品详情">
-        <tinymce v-model="product.content" :height="300" />
+        <tinymce
+          v-show="language === 0"
+          v-model="product.content[0]"
+          :height="300"
+        />
+        <tinymce
+          v-show="language === 1"
+          v-model="product.content[1]"
+          :height="300"
+        />
+        <tinymce
+          v-show="language === 2"
+          v-model="product.content[2]"
+          :height="300"
+        />
+        <tinymce
+          v-show="language === 3"
+          v-model="product.content[3]"
+          :height="300"
+        />
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -236,7 +264,8 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      language: 0
     }
   },
   watch: {
@@ -248,7 +277,8 @@ export default {
       if (val === false) {
         this.$refs.form.clearValidate()
       }
-    }
+    },
+    language: function(val) {}
   },
   created() {
     console.log('create')

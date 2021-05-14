@@ -29,7 +29,11 @@
     <div class="toolbar">
       <div>
         <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addProduct">添加商品</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          @click="addProduct"
+        >添加商品</el-button>
       </div>
       <p>共有数据：32条</p>
     </div>
@@ -67,9 +71,16 @@
           {{ scope.row.desc }}
         </template>
       </el-table-column>
-      <el-table-column label="单价" width="110" align="center" sortable="custom">
+      <el-table-column
+        label="单价"
+        width="110"
+        align="center"
+        sortable="custom"
+      >
         <template slot-scope="scope">
-          {{ scope.row.price1 + ', ' + scope.row.price2 + ', ' + scope.row.price3 }}
+          {{
+            scope.row.price1 + ', ' + scope.row.price2 + ', ' + scope.row.price3
+          }}
         </template>
       </el-table-column>
       <!-- 创建日期 -->
@@ -216,7 +227,9 @@ export default {
   data() {
     return {
       list: [],
-      temp: {},
+      temp: {
+        content: new Array(4)
+      },
       listLoading: true,
       // 商品总数
       total: 0,
@@ -279,7 +292,7 @@ export default {
       this.temp = {
         id: randomString(),
         create_time: parseTime(new Date()),
-        content: ''
+        content: new Array(4)
       }
       this.$refs.productDialogRef.dialogVisible = true
     },

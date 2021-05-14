@@ -28,7 +28,13 @@ const data = Mock.mock({
       num2: '@integer(60, 500)',
       price3: '@float(60,100,0,1)',
       num3: '@integer(60, 500)',
-      content: '@csentence(100,200)'
+      // content: '@csentence(100,200)'
+      content: [
+        'US:' + Random.paragraph(),
+        'ELS:' + Random.paragraph(),
+        'TEQ:' + Random.paragraph(),
+        'ALB:' + Random.paragraph()
+      ]
     }
   ]
 })
