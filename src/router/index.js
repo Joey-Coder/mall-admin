@@ -104,6 +104,27 @@ export const constantRoutes = [
     ]
   },
 
+  // 订单管理
+  {
+    path: '/shipping',
+    component: Layout,
+    redirect: '/shipping/list',
+    name: 'Shipping',
+    alwaysShow: true,
+    meta: {
+      title: '运费管理',
+      icon: 'shipping'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/shipping/list/index'),
+        name: 'ShippingList',
+        meta: { title: '运费列表' }
+      }
+    ]
+  },
+
   // 会员管理
   {
     path: '/members',

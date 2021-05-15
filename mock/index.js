@@ -7,8 +7,17 @@ const order = require('./order')
 const test = require('./test')
 const members = require('./members')
 const admin = require('./admin')
+const shipping = require('./shipping')
 
-const mocks = [...user, ...table, ...order, ...test, ...members, ...admin]
+const mocks = [
+  ...user,
+  ...table,
+  ...order,
+  ...test,
+  ...members,
+  ...admin,
+  ...shipping
+]
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,
