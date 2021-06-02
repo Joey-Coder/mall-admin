@@ -24,6 +24,7 @@ export default {
   // to fixed bug when cached by keep-alive
   // https://github.com/PanJiaChen/vue-element-admin/issues/2116
   activated() {
+    // 使用keepalive会调用这个生命周期
     this.$_initResizeEvent()
     this.$_initSidebarResizeEvent()
   },
