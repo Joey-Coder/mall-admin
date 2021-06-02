@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -23,6 +23,7 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
+      // 如果有登录凭证，则直接跳转到主页
       next({ path: '/' })
       NProgress.done()
     } else {
@@ -45,12 +46,14 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
+    // 未登录状态下
     /* has no token*/
 
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
+      // 如果访问路由在白名单内，则直接跳转
       next()
-    } else {
+    } else { // 否则跳转到登录页面
       // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
       NProgress.done()
